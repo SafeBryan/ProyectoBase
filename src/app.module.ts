@@ -10,7 +10,7 @@ import { ConfigModule } from '@nestjs/config';
       type: 'postgres', // Cambia esto según tu base de datos
       host: 'localhost',
       port: 5432,
-      username: 'root',
+      username: 'postgres',
       password: '081012',
       database: 'pruebas',
       autoLoadEntities: true,
