@@ -17,7 +17,9 @@ export class AuthService {
     private readonly jwtService: JwtService,
   ) {}
 
-  async register({ name, email, password }: RegisterDto) {
+  async register(registerDto: RegisterDto) {
+    const { username, email, password, persona } = registerDto;
+
     const user = await this.userService.findOneByEmail(email);
 
     if (user) {
@@ -26,7 +28,13 @@ export class AuthService {
 
     const hashedPassword = await bcryptjs.hash(password, 10);
 
-    await this.userService.create({ name, email, password: hashedPassword });
+    // Crear el usuario junto con la información de la persona
+    await this.userService.create({
+      username,
+      email,
+      password: hashedPassword,
+      persona, // Asegúrate de que el servicio de usuario maneje correctamente la información de la persona
+    });
 
     return {
       message: 'User created successfully',

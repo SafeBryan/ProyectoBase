@@ -1,47 +1,67 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { Person } from 'src/people/entities/person.entity';
 
 @Injectable()
 export class UsersService {
-
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
-  ){}
+    @InjectRepository(Person)
+    private readonly personRepository: Repository<Person>,
+  ) {}
 
+  async create(createUserDto: CreateUserDto) {
+    const person = await this.personRepository.findOneBy({
+      name: createUserDto.persona,
+    });
 
-  create(createUserDto: CreateUserDto) {
-    return this.userRepository.save(createUserDto)
+    if (!person) {
+      throw new BadRequestException('Person not found');
+    }
+
+    const user = this.userRepository.create({
+      ...createUserDto,
+      person,
+    });
+
+    return await this.userRepository.save(user);
   }
 
-  findOneByEmail(email: string){
-    return this.userRepository.findOneBy({email})
+  async findOneByEmail(email: string) {
+    return this.userRepository.findOneBy({ email });
   }
 
-  findOneByEmailWithPassword(email: string) {
+  async findOneByEmailWithPassword(email: string) {
     return this.userRepository.findOne({
       where: { email },
-      select: ['id', 'name', 'email', 'password', 'role'],
+      select: ['id', 'username', 'email', 'password', 'role'],
     });
   }
 
-  findAll() {
+  async findAll() {
     return this.userRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
+  async findOne(id: number) {
+    return this.userRepository.findOneBy({ id });
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+  async update(id: number, updateUserDto: UpdateUserDto) {
+    await this.userRepository.update(id, updateUserDto);
+    return this.userRepository.findOneBy({ id });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} user`;
+  async remove(id: number) {
+    const user = await this.userRepository.findOneBy({ id });
+    if (!user) {
+      throw new BadRequestException('User not found');
+    }
+    await this.userRepository.remove(user);
+    return { message: 'User removed successfully' };
   }
 }

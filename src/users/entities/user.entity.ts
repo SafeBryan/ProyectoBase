@@ -1,10 +1,15 @@
+import { Order } from 'src/orders/entities/order.entity';
 import { Role } from '../../common/enums/role.enum';
 import {
   Column,
   DeleteDateColumn,
   Entity,
+  JoinColumn,
+  OneToMany,
+  OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import { Person } from 'src/people/entities/person.entity';
 
 @Entity()
 export class User {
@@ -12,7 +17,7 @@ export class User {
   id: number;
 
   @Column({ length: 500 })
-  name: string;
+  username: string;
 
   @Column({ unique: true, nullable: false })
   email: string;
@@ -25,4 +30,13 @@ export class User {
 
   @DeleteDateColumn()
   deletedAt: Date;
+
+  @OneToMany(() => Order, (order) => order.user)
+  order: Order[];
+
+  @OneToOne(() => Person, (person) => person.id, {
+    cascade: true,
+  })
+  @JoinColumn()
+  person: Person;
 }
