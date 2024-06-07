@@ -10,6 +10,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Person } from 'src/people/entities/person.entity';
+import { ShoppingCart } from 'src/shopping_carts/entities/shopping_cart.entity';
 
 @Entity()
 export class User {
@@ -39,4 +40,7 @@ export class User {
   })
   @JoinColumn()
   person: Person;
+
+  @OneToMany(() => ShoppingCart, (shopping_cart) => shopping_cart.user)
+  shopping_cart: ShoppingCart[];
 }

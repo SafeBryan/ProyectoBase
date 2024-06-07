@@ -6,6 +6,9 @@ import { ProductsModule } from './products/products.module';
 import { CategoriesModule } from './categories/categories.module';
 import { OrdersModule } from './orders/orders.module';
 import { PeopleModule } from './people/people.module';
+import { ShoppingCartsModule } from './shopping_carts/shopping_carts.module';
+import { BrandsModule } from './brands/brands.module';
+import { PromotionsModule } from './promotions/promotions.module';
 
 
 @Module({
@@ -25,7 +28,10 @@ import { PeopleModule } from './people/people.module';
     ProductsModule,
     CategoriesModule,
     OrdersModule,
-    PeopleModule,],
+    PeopleModule,
+    ShoppingCartsModule,
+    BrandsModule,
+    PromotionsModule,],
   controllers: [],
   providers: [],
 })

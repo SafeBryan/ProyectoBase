@@ -1,4 +1,10 @@
-import { IsNumber, IsString, MinLength, IsInt, IsPositive } from 'class-validator';
+import {
+  IsNumber,
+  IsString,
+  MinLength,
+  IsInt,
+  IsPositive,
+} from 'class-validator';
 import { Column } from 'typeorm';
 
 export class CreateProductDto {
@@ -17,4 +23,18 @@ export class CreateProductDto {
   @IsString()
   @MinLength(5)
   categoria: string;
+
+  @IsString()
+  @MinLength(5)
+  marca: string;
+
+  @IsNumber()
+  @IsInt()
+  @IsPositive()
+  stock: number;
+  
+  @IsNumber()
+  @IsInt()
+  @IsPositive()
+  descuento: number;
 }
