@@ -15,7 +15,7 @@ export class RegisterDto {
   @Transform(({ value }) => value.trim())
   password: string;
 
-  @IsString() // Puedes ajustar las reglas de validación según tus necesidades
+  @IsString() 
   @IsNotEmpty()
   persona: string;
 }

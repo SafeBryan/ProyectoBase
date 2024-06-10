@@ -13,4 +13,6 @@ export class Promotion {
 
   @Column('decimal', { default: 0 })
   descuento: number;
+
+  
 }
