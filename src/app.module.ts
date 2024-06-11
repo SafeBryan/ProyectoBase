@@ -13,6 +13,9 @@ import { CartItemsModule } from './cart_items/cart_items.module';
 import { OrderItemsModule } from './order_items/order_items.module';
 import { PaymentsModule } from './payments/payments.module';
 import { ReturnsModule } from './returns/returns.module';
+import { InventoryHistoryModule } from './inventory_history/inventory_history.module';
+import { RolesModule } from './roles/roles.module';
+import { UserRolesModule } from './user_roles/user_roles.module';
 
 
 @Module({
@@ -39,7 +42,10 @@ import { ReturnsModule } from './returns/returns.module';
     CartItemsModule,
     OrderItemsModule,
     PaymentsModule,
-    ReturnsModule,],
+    ReturnsModule,
+    InventoryHistoryModule,
+    RolesModule,
+    UserRolesModule,],
   controllers: [],
   providers: [],
 })

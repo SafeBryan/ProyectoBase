@@ -11,6 +11,7 @@ import {
 } from 'typeorm';
 import { Person } from 'src/people/entities/person.entity';
 import { ShoppingCart } from 'src/shopping_carts/entities/shopping_cart.entity';
+import { UserRole } from 'src/user_roles/entities/user_role.entity';
 
 @Entity()
 export class User {
@@ -43,4 +44,7 @@ export class User {
 
   @OneToMany(() => ShoppingCart, (shopping_cart) => shopping_cart.user)
   shopping_cart: ShoppingCart[];
+
+  @OneToMany(() => UserRole, (userRoles) => userRoles.usuario)
+  userRoles: UserRole[];
 }

@@ -10,6 +10,7 @@ import { Category } from 'src/categories/entities/category.entity';
 import { Brand } from 'src/brands/entities/brand.entity';
 import { CartItem } from 'src/cart_items/entities/cart_item.entity';
 import { OrderItem } from 'src/order_items/entities/order_item.entity';
+import { InventoryHistory } from 'src/inventory_history/entities/inventory_history.entity';
 
 @Entity()
 export class Product {
@@ -49,5 +50,8 @@ export class Product {
 
   @OneToMany(() => OrderItem, (order_item) => order_item.product)
   orderItems: OrderItem[];
+
+  @OneToMany(() => InventoryHistory, (inventoryHistory) => inventoryHistory.producto)
+    inventoryHistories: InventoryHistory[];
 }
 
