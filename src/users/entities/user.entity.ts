@@ -1,5 +1,5 @@
 import { Order } from 'src/orders/entities/order.entity';
-import { Role } from '../../common/enums/role.enum';
+import { Role } from 'src/roles/entities/role.entity';
 import {
   Column,
   DeleteDateColumn,
@@ -27,24 +27,19 @@ export class User {
   @Column({ nullable: false, select: false })
   password: string;
 
-  @Column({ type: 'enum', enum: Role, default: Role.USER })
-  role: Role;
-
   @DeleteDateColumn()
   deletedAt: Date;
 
   @OneToMany(() => Order, (order) => order.user)
   order: Order[];
 
-  @OneToOne(() => Person, (person) => person.id, {
-    cascade: true,
-  })
+  @OneToOne(() => Person, (person) => person.id, { cascade: true })
   @JoinColumn()
   person: Person;
 
-  @OneToMany(() => ShoppingCart, (shopping_cart) => shopping_cart.user)
-  shopping_cart: ShoppingCart[];
+  @OneToMany(() => ShoppingCart, (shoppingCart) => shoppingCart.user)
+  shoppingCart: ShoppingCart[];
 
-  @OneToMany(() => UserRole, (userRoles) => userRoles.usuario)
+  @OneToMany(() => UserRole, (userRole) => userRole.user)
   userRoles: UserRole[];
 }

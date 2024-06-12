@@ -20,6 +20,9 @@ export class Order {
   @Column()
   total: number;
 
+  @Column()
+  impuestos: number;
+
   @ManyToOne(() => User, (user) => user.id, {
     eager: true,
   })

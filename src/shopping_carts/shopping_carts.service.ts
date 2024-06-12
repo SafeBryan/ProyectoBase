@@ -1,8 +1,8 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateShoppingCartDto } from './dto/create-shopping_cart.dto';
 import { UpdateShoppingCartDto } from './dto/update-shopping_cart.dto';
-import { InjectRepository } from '@nestjs/typeorm';
 import { ShoppingCart } from './entities/shopping_cart.entity';
+import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from 'src/users/entities/user.entity';
 
@@ -17,7 +17,7 @@ export class ShoppingCartsService {
 
   async create(createShoppingCartDto: CreateShoppingCartDto) {
     const user = await this.userRepository.findOneBy({
-      username: createShoppingCartDto.user,
+      username: createShoppingCartDto.username,
     });
     if (!user) {
       throw new BadRequestException('Category not found');
@@ -37,8 +37,28 @@ export class ShoppingCartsService {
     return `This action returns a #${id} shoppingCart`;
   }
 
-  update(id: number, updateShoppingCartDto: UpdateShoppingCartDto) {
-    return `This action updates a #${id} shoppingCart`;
+  async update(id: number, updateShoppingCartDto: UpdateShoppingCartDto) {
+    const shoppingCart = await this.shoppingCartRepository.findOneBy({ id });
+    if (!shoppingCart) {
+      throw new NotFoundException(`Shopping cart with ID ${id} not found`);
+    }
+
+    if (updateShoppingCartDto.username) {
+      const user = await this.userRepository.findOneBy({
+        username: updateShoppingCartDto.username,
+      });
+      if (!user) {
+        throw new BadRequestException('User not found');
+      }
+      shoppingCart.user = user;  
+    }
+
+    const updatedShoppingCart = this.shoppingCartRepository.create({
+      ...shoppingCart,
+      ...updateShoppingCartDto,
+    });
+
+    return await this.shoppingCartRepository.save(updatedShoppingCart);
   }
 
   remove(id: number) {

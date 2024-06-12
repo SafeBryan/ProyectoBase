@@ -38,8 +38,8 @@ export class UserRolesService {
     }
 
     const userRole = this.userRoleRepository.create({
-      usuario: user,
-      rol: role,
+      user: user,  
+      role: role,  
     });
 
     return await this.userRoleRepository.save(userRole);
@@ -47,21 +47,21 @@ export class UserRolesService {
 
   async findAll(): Promise<UserRole[]> {
     return await this.userRoleRepository.find({
-      relations: ['usuario', 'rol'],
+      relations: ['user', 'role'],  
     });
   }
 
   async findOne(id: number): Promise<UserRole> {
     const userRole = await this.userRoleRepository.findOne({
       where: { id },
-      relations: ['usuario', 'rol'],
+      relations: ['user', 'role'],  
     });
     if (!userRole) {
       throw new NotFoundException(`UserRole with ID ${id} not found`);
     }
     return userRole;
   }
-
+  
   async update(
     id: number,
     updateUserRoleDto: UpdateUserRoleDto,

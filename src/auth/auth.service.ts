@@ -20,15 +20,14 @@ export class AuthService {
   async register(registerDto: RegisterDto) {
     const { username, email, password, persona } = registerDto;
 
-    const user = await this.userService.findOneByEmail(email);
+    const userExists = await this.userService.findOneByEmail(email);
 
-    if (user) {
+    if (userExists) {
       throw new BadRequestException('Email already exists');
     }
 
     const hashedPassword = await bcryptjs.hash(password, 10);
 
-    // Crear el usuario junto con la información de la persona
     await this.userService.create({
       username,
       email,
@@ -49,12 +48,13 @@ export class AuthService {
     }
 
     const isPasswordValid = await bcryptjs.compare(password, user.password);
-
     if (!isPasswordValid) {
       throw new UnauthorizedException('Password is wrong');
     }
 
-    const payload = { email: user.email, role: user.role };
+    // Asegúrate de que el usuario tiene roles y accede correctamente a ellos
+    const roles = user.userRoles.map((userRole) => userRole.role.nombre);
+    const payload = { email: user.email, roles };
 
     const token = await this.jwtService.signAsync(payload);
 
@@ -64,11 +64,7 @@ export class AuthService {
     };
   }
 
-  async profile({ email, role }: { email: string; role: string }) {
-    //if(role !== 'admin'){
-    //  throw new UnauthorizedException('Access denied');
-    //}
-
+  async profile({ email }: { email: string }) {
     return await this.userService.findOneByEmail(email);
   }
 }

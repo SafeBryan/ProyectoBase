@@ -33,31 +33,46 @@ export class UsersService {
   }
 
   async findOneByEmail(email: string) {
-    return this.userRepository.findOneBy({ email });
+    return await this.userRepository.findOne({
+      where: { email },
+      relations: ['userRoles', 'userRoles.role'],
+    });
   }
 
   async findOneByEmailWithPassword(email: string) {
-    return this.userRepository.findOne({
+    return await this.userRepository.findOne({
       where: { email },
-      select: ['id', 'username', 'email', 'password', 'role'],
+      select: ['id', 'username', 'email', 'password'],
+      relations: ['userRoles', 'userRoles.role'],
     });
   }
 
   async findAll() {
-    return this.userRepository.find();
+    return await this.userRepository.find({
+      relations: ['userRoles', 'userRoles.role'],
+    });
   }
 
   async findOne(id: number) {
-    return this.userRepository.findOneBy({ id });
+    return await this.userRepository.findOne({
+      where: { id },
+      relations: ['userRoles', 'userRoles.role'],
+    });
   }
 
   async update(id: number, updateUserDto: UpdateUserDto) {
     await this.userRepository.update(id, updateUserDto);
-    return this.userRepository.findOneBy({ id });
+    return await this.userRepository.findOne({
+      where: { id },
+      relations: ['userRoles', 'userRoles.role'],
+    });
   }
 
   async remove(id: number) {
-    const user = await this.userRepository.findOneBy({ id });
+    const user = await this.userRepository.findOne({
+      where: { id },
+      relations: ['userRoles', 'userRoles.role'],
+    });
     if (!user) {
       throw new BadRequestException('User not found');
     }

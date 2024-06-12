@@ -4,6 +4,6 @@ export class CreateShoppingCartDto {
 
     @IsString()
     @MinLength(5)
-    user: string;
+    username?: string; 
 
 }

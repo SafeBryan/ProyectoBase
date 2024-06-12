@@ -1,7 +1,12 @@
-import { IsInt, IsNumber, IsPositive, IsString, MinLength } from "class-validator";
+import {
+  IsInt,
+  IsNumber,
+  IsPositive,
+  IsString,
+  MinLength,
+} from 'class-validator';
 
 export class CreateOrderDto {
-
   @IsString()
   estado: string;
 
@@ -10,8 +15,12 @@ export class CreateOrderDto {
   @IsPositive()
   total: number;
 
+  @IsNumber()
+  @IsInt()
+  @IsPositive()
+  impuestos: number;
+
   @IsString()
   @MinLength(5)
   user: string;
-
 }
