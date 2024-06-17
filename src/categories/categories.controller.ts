@@ -10,7 +10,13 @@ import {
 import { CategoriesService } from './categories.service';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
-
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { RoleEnum } from 'src/common/enums/role.enum';
+import { Auth } from 'src/auth/decorators/auth.decorators';
+@ApiBearerAuth()
+@Auth([RoleEnum.ADMIN])
+@Auth([RoleEnum.OWNER]) 
+@ApiTags('categories')
 @Controller('categories')
 export class CategoriesController {
   constructor(private readonly categoriesService: CategoriesService) {}
@@ -20,11 +26,13 @@ export class CategoriesController {
     return this.categoriesService.create(createCategoryDto);
   }
 
+  @Auth([RoleEnum.USER])
   @Get()
   findAll() {
     return this.categoriesService.findAll();
   }
-
+  @ApiBearerAuth()
+  @Auth([RoleEnum.USER])
   @Get(':id')
   findOne(@Param('id') id: number) {
     return this.categoriesService.findOne(id);

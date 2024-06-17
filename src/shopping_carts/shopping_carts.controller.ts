@@ -2,7 +2,15 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { ShoppingCartsService } from './shopping_carts.service';
 import { CreateShoppingCartDto } from './dto/create-shopping_cart.dto';
 import { UpdateShoppingCartDto } from './dto/update-shopping_cart.dto';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { Auth } from 'src/auth/decorators/auth.decorators';
+import { RoleEnum } from 'src/common/enums/role.enum';
 
+@ApiBearerAuth()
+@Auth([RoleEnum.USER])
+@Auth([RoleEnum.ADMIN])
+@Auth([RoleEnum.OWNER]) 
+@ApiTags('shopping-carts')
 @Controller('shopping-carts')
 export class ShoppingCartsController {
   constructor(private readonly shoppingCartsService: ShoppingCartsService) {}

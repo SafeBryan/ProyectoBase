@@ -2,7 +2,13 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { InventoryHistoryService } from './inventory_history.service';
 import { CreateInventoryHistoryDto } from './dto/create-inventory_history.dto';
 import { UpdateInventoryHistoryDto } from './dto/update-inventory_history.dto';
-
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { RoleEnum } from 'src/common/enums/role.enum';
+import { Auth } from 'src/auth/decorators/auth.decorators';
+@ApiBearerAuth()
+@Auth([RoleEnum.ADMIN])
+@Auth([RoleEnum.OWNER]) 
+@ApiTags('inventory-history')
 @Controller('inventory-history')
 export class InventoryHistoryController {
   constructor(private readonly inventoryHistoryService: InventoryHistoryService) {}

@@ -9,36 +9,53 @@ import { UsersService } from '../users/users.service';
 import * as bcryptjs from 'bcryptjs';
 import { LoginDto } from './dto/login.dto';
 import { JwtService } from '@nestjs/jwt';
+import { UserRolesService } from 'src/user_roles/user_roles.service';
 
 @Injectable()
 export class AuthService {
   constructor(
     private readonly userService: UsersService,
     private readonly jwtService: JwtService,
+    private readonly userRolesService: UserRolesService,
   ) {}
 
   async register(registerDto: RegisterDto) {
     const { username, email, password, persona } = registerDto;
-
+  
     const userExists = await this.userService.findOneByEmail(email);
-
+  
     if (userExists) {
       throw new BadRequestException('Email already exists');
     }
-
+  
     const hashedPassword = await bcryptjs.hash(password, 10);
-
-    await this.userService.create({
+    
+    // Crear el usuario
+    const user = await this.userService.create({
       username,
       email,
       password: hashedPassword,
-      persona, // Asegúrate de que el servicio de usuario maneje correctamente la información de la persona
+      persona,
     });
+  
 
+    const defaultRole = await this.userService.findRoleByName('user');
+    if (!defaultRole) {
+      throw new BadRequestException('Default role not found');
+    }
+  
+
+    await this.userRolesService.create({
+      usuarioId: user.id,
+      rolId: defaultRole.id
+    });
+  
     return {
       message: 'User created successfully',
+      userId: user.id,
     };
   }
+  
 
   async login({ email, password }: LoginDto) {
     const user = await this.userService.findOneByEmailWithPassword(email);
@@ -52,7 +69,7 @@ export class AuthService {
       throw new UnauthorizedException('Password is wrong');
     }
 
-    // Asegúrate de que el usuario tiene roles y accede correctamente a ellos
+
     const roles = user.userRoles.map((userRole) => userRole.role.nombre);
     const payload = { email: user.email, roles };
 

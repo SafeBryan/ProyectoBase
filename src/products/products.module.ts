@@ -7,12 +7,16 @@ import { CategoriesModule } from 'src/categories/categories.module';
 import { CategoriesService } from 'src/categories/categories.service';
 import { BrandsModule } from 'src/brands/brands.module';
 import { BrandsService } from 'src/brands/brands.service';
+import { AuthModule } from 'src/auth/auth.module';
+import { JwtModule } from '@nestjs/jwt';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([Product]),
     CategoriesModule,
     BrandsModule,
+    AuthModule,
+    JwtModule
   ],
   controllers: [ProductsController],
   providers: [ProductsService, CategoriesService, BrandsService],

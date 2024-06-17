@@ -61,7 +61,15 @@ export class UserRolesService {
     }
     return userRole;
   }
-  
+
+  async findRoleByName(roleName: string): Promise<Role> {
+  return this.rolesRepository.findOne({
+    where: { nombre: roleName }
+  });
+}
+
+
+
   async update(
     id: number,
     updateUserRoleDto: UpdateUserRoleDto,

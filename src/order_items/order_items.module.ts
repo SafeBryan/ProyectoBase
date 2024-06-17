@@ -5,12 +5,16 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { OrderItem } from './entities/order_item.entity';
 import { OrdersModule } from '../orders/orders.module';
 import { ProductsModule } from '../products/products.module';
+import { AuthModule } from 'src/auth/auth.module';
+import { JwtModule } from '@nestjs/jwt';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([OrderItem]),
     OrdersModule,
     ProductsModule,
+    AuthModule,
+    JwtModule,
   ],
   controllers: [OrderItemsController],
   providers: [OrderItemsService],

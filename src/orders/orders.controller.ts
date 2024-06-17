@@ -2,7 +2,14 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { OrdersService } from './orders.service';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
-
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { Auth } from 'src/auth/decorators/auth.decorators';
+import { RoleEnum } from 'src/common/enums/role.enum';
+@ApiBearerAuth()
+@Auth([RoleEnum.USER])
+@Auth([RoleEnum.ADMIN])
+@Auth([RoleEnum.OWNER])
+@ApiTags('orders')
 @Controller('orders')
 export class OrdersController {
 
