@@ -20,6 +20,9 @@ export class OrderItem {
   @Column()
   precio: number;
 
+  @Column({ type: 'decimal', default: 0 }) 
+  descuento: number;
+
   @ManyToOne(() => Product, (product) => product.orderItems, {
     eager: true,
   })

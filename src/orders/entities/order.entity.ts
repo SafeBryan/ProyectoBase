@@ -3,6 +3,7 @@ import { Payment } from 'src/payments/entities/payment.entity';
 import { User } from 'src/users/entities/user.entity';
 import {
   Column,
+  CreateDateColumn, // Importa CreateDateColumn
   Entity,
   ManyToOne,
   OneToMany,
@@ -33,4 +34,7 @@ export class Order {
 
   @OneToMany(() => Payment, (payment) => payment.order)
   payment: Payment[];
+
+  @CreateDateColumn() 
+  createdAt: Date;
 }
