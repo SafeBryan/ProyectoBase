@@ -8,7 +8,6 @@ import { OrdersModule } from './orders/orders.module';
 import { PeopleModule } from './people/people.module';
 import { ShoppingCartsModule } from './shopping_carts/shopping_carts.module';
 import { BrandsModule } from './brands/brands.module';
-import { PromotionsModule } from './promotions/promotions.module';
 import { CartItemsModule } from './cart_items/cart_items.module';
 import { OrderItemsModule } from './order_items/order_items.module';
 import { PaymentsModule } from './payments/payments.module';
@@ -38,7 +37,6 @@ import { UserRolesModule } from './user_roles/user_roles.module';
     PeopleModule,
     ShoppingCartsModule,
     BrandsModule,
-    PromotionsModule,
     CartItemsModule,
     OrderItemsModule,
     PaymentsModule,
