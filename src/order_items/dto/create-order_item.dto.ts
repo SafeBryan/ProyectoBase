@@ -2,7 +2,7 @@ import { IsInt } from 'class-validator';
 
 export class CreateOrderItemDto {
   @IsInt()
-  cantidadPro: number;
+  cantidadItem: number;
 
   @IsInt()
   precio: number;

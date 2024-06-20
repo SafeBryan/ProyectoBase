@@ -1,18 +1,13 @@
-import { IsDate, IsInt, IsNumber, IsPositive, IsString, MinLength } from "class-validator";
+import { IsInt, IsString, MinLength } from 'class-validator';
 
 export class CreateReturnDto {
-    
+  @IsInt()
+  cantidad: number;
 
-    @IsString()
-    cantidad: number;
-  
-    @IsDate()
-    fecha: Date;
-  
-    @IsString()
-    @MinLength(5)
-    motivo: string;
+  @IsString()
+  @MinLength(5)
+  motivo: string;
 
-    @IsString()
-    orderItemId:number;
+  @IsInt()
+  orderItemId: number;
 }

@@ -2,6 +2,7 @@ import {
   Injectable,
   NotFoundException,
   BadRequestException,
+  Logger,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -13,6 +14,7 @@ import { Role } from 'src/roles/entities/role.entity';
 
 @Injectable()
 export class UserRolesService {
+  private readonly logger = new Logger(UserRolesService.name);
   constructor(
     @InjectRepository(UserRole)
     private readonly userRoleRepository: Repository<UserRole>,
@@ -38,8 +40,8 @@ export class UserRolesService {
     }
 
     const userRole = this.userRoleRepository.create({
-      user: user,  
-      role: role,  
+      user: user,
+      role: role,
     });
 
     return await this.userRoleRepository.save(userRole);
@@ -47,14 +49,14 @@ export class UserRolesService {
 
   async findAll(): Promise<UserRole[]> {
     return await this.userRoleRepository.find({
-      relations: ['user', 'role'],  
+      relations: ['user', 'role'],
     });
   }
 
   async findOne(id: number): Promise<UserRole> {
     const userRole = await this.userRoleRepository.findOne({
       where: { id },
-      relations: ['user', 'role'],  
+      relations: ['user', 'role'],
     });
     if (!userRole) {
       throw new NotFoundException(`UserRole with ID ${id} not found`);
@@ -63,25 +65,38 @@ export class UserRolesService {
   }
 
   async findRoleByName(roleName: string): Promise<Role> {
-  return this.rolesRepository.findOne({
-    where: { nombre: roleName }
-  });
-}
-
-
+    return this.rolesRepository.findOne({
+      where: { nombre: roleName },
+    });
+  }
 
   async update(
     id: number,
     updateUserRoleDto: UpdateUserRoleDto,
   ): Promise<UserRole> {
-    const userRole = await this.userRoleRepository.preload({
-      id,
-      ...updateUserRoleDto,
+    this.logger.debug(
+      `Updating UserRole with ID: ${id}, Data: ${JSON.stringify(updateUserRoleDto)}`,
+    );
+
+    let userRole = await this.userRoleRepository.findOne({
+      where: { id },
+      relations: ['user', 'role'],
     });
+
     if (!userRole) {
+      this.logger.error(`UserRole with ID ${id} not found`);
       throw new NotFoundException(`UserRole with ID ${id} not found`);
     }
-    return await this.userRoleRepository.save(userRole);
+
+    userRole = this.userRoleRepository.create({
+      ...userRole,
+      ...updateUserRoleDto,
+    });
+
+    const updatedUserRole = await this.userRoleRepository.save(userRole);
+    this.logger.debug(`Updated UserRole: ${JSON.stringify(updatedUserRole)}`);
+
+    return updatedUserRole;
   }
 
   async remove(id: number): Promise<void> {

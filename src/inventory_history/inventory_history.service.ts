@@ -43,10 +43,8 @@ export class InventoryHistoryService {
     id: number,
     updateInventoryHistoryDto: UpdateInventoryHistoryDto,
   ) {
-    return await this.inventoryHistoryRepository.update(
-      id,
-      updateInventoryHistoryDto,
-    );
+    await this.inventoryHistoryRepository.update(id, updateInventoryHistoryDto);
+    return this.findOne(id); 
   }
 
   async remove(id: number) {

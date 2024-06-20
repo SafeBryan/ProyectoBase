@@ -1,13 +1,9 @@
-import { IsNotEmpty, IsNumber, IsDateString, IsString } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
 
 export class CreateInventoryHistoryDto {
   @IsNotEmpty()
   @IsNumber()
   cambio: number;
-
-  @IsNotEmpty()
-  @IsDateString()
-  fecha: string;
 
   @IsNotEmpty()
   @IsString()

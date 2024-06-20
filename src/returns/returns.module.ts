@@ -9,7 +9,9 @@ import { JwtModule } from '@nestjs/jwt';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Return, OrderItem]), AuthModule, JwtModule
+    TypeOrmModule.forFeature([Return, OrderItem]),
+    AuthModule,
+    JwtModule,
   ],
   controllers: [ReturnsController],
   providers: [ReturnsService],

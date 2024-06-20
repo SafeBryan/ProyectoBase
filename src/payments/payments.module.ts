@@ -3,7 +3,7 @@ import { PaymentsService } from './payments.service';
 import { PaymentsController } from './payments.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Payment } from './entities/payment.entity';
-import { OrdersModule } from '../orders/orders.module'; 
+import { OrdersModule } from '../orders/orders.module';
 import { AuthModule } from 'src/auth/auth.module';
 import { JwtModule } from '@nestjs/jwt';
 
@@ -12,7 +12,7 @@ import { JwtModule } from '@nestjs/jwt';
     TypeOrmModule.forFeature([Payment]),
     OrdersModule,
     AuthModule,
-    JwtModule  
+    JwtModule,
   ],
   controllers: [PaymentsController],
   providers: [PaymentsService],

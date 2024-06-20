@@ -24,7 +24,7 @@ export class Order {
   @Column()
   impuestos: number;
 
-  @ManyToOne(() => User, (user) => user.id, {
+  @ManyToOne(() => User, (user) => user.username, {
     eager: true,
   })
   user: User;

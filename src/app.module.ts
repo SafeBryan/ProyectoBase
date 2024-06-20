@@ -15,6 +15,7 @@ import { ReturnsModule } from './returns/returns.module';
 import { InventoryHistoryModule } from './inventory_history/inventory_history.module';
 import { RolesModule } from './roles/roles.module';
 import { UserRolesModule } from './user_roles/user_roles.module';
+import { PromotionsModule } from './promotions/promotions.module';
 
 
 @Module({
@@ -43,7 +44,8 @@ import { UserRolesModule } from './user_roles/user_roles.module';
     ReturnsModule,
     InventoryHistoryModule,
     RolesModule,
-    UserRolesModule,],
+    UserRolesModule,
+    PromotionsModule,],
   controllers: [],
   providers: [],
 })

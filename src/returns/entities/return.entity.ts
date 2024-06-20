@@ -1,29 +1,28 @@
-import { OrderItem } from "src/order_items/entities/order_item.entity";
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { OrderItem } from 'src/order_items/entities/order_item.entity';
+import {
+  Column,
+  Entity,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+  CreateDateColumn,
+} from 'typeorm';
 
 @Entity()
 export class Return {
-    @PrimaryGeneratedColumn()
-    id:number;
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    @Column()
-    cantidad: number;
+  @Column()
+  cantidad: number;
 
-    @Column()
-    fecha: Date;
+  @CreateDateColumn()
+  createdAt: Date;
 
-    @Column()
-    motivo: string;
+  @Column()
+  motivo: string;
 
-    
-  @ManyToOne(() => OrderItem, (order_Item) => order_Item.returns, {
+  @ManyToOne(() => OrderItem, (orderItem) => orderItem.returns, {
     eager: true,
   })
   orderItem: OrderItem;
-
-
-
-
-
-
 }

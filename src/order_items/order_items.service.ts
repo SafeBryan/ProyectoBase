@@ -23,7 +23,7 @@ export class OrderItemsService {
       where: { id: createOrderItemDto.orderId },
     });
     if (!order) {
-      throw new BadRequestException('Shopping cart not found');
+      throw new BadRequestException('Order not found');
     }
 
     const product = await this.productsRepository.findOne({
@@ -51,7 +51,8 @@ export class OrderItemsService {
   }
 
   async update(id: number, updateOrderItemDto: UpdateOrderItemDto) {
-    return await this.orderItemRepository.update(id, updateOrderItemDto);
+    await this.orderItemRepository.update(id, updateOrderItemDto);
+    return this.findOne(id); 
   }
 
   async remove(id: number) {

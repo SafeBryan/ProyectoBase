@@ -40,7 +40,8 @@ export class ReturnsService {
   }
 
   async update(id: number, updateReturnDto: UpdateReturnDto) {
-    return await this.returnRepository.update(id, updateReturnDto);
+    await this.returnRepository.update(id, updateReturnDto);
+    return this.findOne(id);
   }
 
   async remove(id: number) {

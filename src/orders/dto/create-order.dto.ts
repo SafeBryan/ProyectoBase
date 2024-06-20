@@ -21,6 +21,6 @@ export class CreateOrderDto {
   impuestos: number;
 
   @IsString()
-  @MinLength(5)
-  user: string;
+  @MinLength(1)
+  username: string;
 }

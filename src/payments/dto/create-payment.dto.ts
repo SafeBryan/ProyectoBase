@@ -10,8 +10,10 @@ export class CreatePaymentDto {
   tipo_pago: string;
 
   @IsNotEmpty()
+  @IsNumber()
   orderId: number;
 
   @IsNotEmpty()
+  @IsNumber()
   transacionId: number;
 }

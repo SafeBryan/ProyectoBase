@@ -1,5 +1,11 @@
 import { Product } from 'src/products/entities/product.entity';
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+  CreateDateColumn,
+} from 'typeorm';
 
 @Entity()
 export class InventoryHistory {
@@ -9,8 +15,8 @@ export class InventoryHistory {
   @Column()
   cambio: number;
 
-  @Column()
-  fecha: Date;
+  @CreateDateColumn()
+  createdAt: Date;
 
   @Column()
   motivo: string;

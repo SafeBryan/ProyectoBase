@@ -8,7 +8,12 @@ import { AuthModule } from 'src/auth/auth.module';
 import { JwtModule } from '@nestjs/jwt';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([InventoryHistory]), ProductsModule, AuthModule, JwtModule],
+  imports: [
+    TypeOrmModule.forFeature([InventoryHistory]),
+    ProductsModule,
+    AuthModule,
+    JwtModule,
+  ],
   controllers: [InventoryHistoryController],
   providers: [InventoryHistoryService],
 })

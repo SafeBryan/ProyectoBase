@@ -13,19 +13,24 @@ export class OrdersService {
     private readonly ordersRepository: Repository<Order>,
     @InjectRepository(User)
     private readonly usersRepository: Repository<User>,
-  ){}
-  async create(CreateOrderDto: CreateOrderDto) {
-    const user = await this.ordersRepository.findOneBy({
-      estado: CreateOrderDto.user,
+  ) {}
+
+  async create(createOrderDto: CreateOrderDto) {
+    // Cambia la búsqueda de usuario a la entidad de User utilizando el campo username
+    const user = await this.usersRepository.findOneBy({
+      username: createOrderDto.username, // Corrección aquí
     });
+
     if (!user) {
       throw new BadRequestException('Usuario not found');
     }
-    const product = this.ordersRepository.create({
-      ...CreateOrderDto,
+
+    const order = this.ordersRepository.create({
+      ...createOrderDto,
       user,
     });
-    return await this.ordersRepository.save(product);
+
+    return await this.ordersRepository.save(order);
   }
 
   async findAll() {
@@ -33,13 +38,15 @@ export class OrdersService {
   }
 
   async findOne(id: number) {
-    return await this.ordersRepository.findBy({ id });
+    return await this.ordersRepository.findOneBy({ id });
   }
 
   async update(id: number, updateOrderDto: UpdateOrderDto) {
-    return ;
+    await this.ordersRepository.update(id, updateOrderDto);
+    return this.findOne(id); // Devolver la entidad actualizada
   }
 
   async remove(id: number) {
-    return await this.ordersRepository.softDelete({ id });  }
+    return await this.ordersRepository.softDelete({ id });
+  }
 }

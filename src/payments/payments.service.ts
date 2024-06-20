@@ -41,7 +41,8 @@ export class PaymentsService {
   }
 
   async update(id: number, updatePaymentDto: UpdatePaymentDto) {
-    return await this.paymentRepository.update(id, updatePaymentDto);
+    await this.paymentRepository.update(id, updatePaymentDto);
+    return this.findOne(id);  
   }
 
   async remove(id: number) {

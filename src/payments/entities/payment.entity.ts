@@ -13,7 +13,7 @@ export class Payment {
   tipo_pago: string;
 
   @Column()
-  tansaccionId: number;
+  transacionId: number;  
 
   @ManyToOne(() => Order, (order) => order.payment, {
     eager: true,
